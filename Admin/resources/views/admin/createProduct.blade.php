@@ -10,7 +10,7 @@
             <div class="col-sm-12 col-xl-12">
                 <div class="bg-secondary rounded h-100 p-4">
                     <h4 class="mb-4 text-center">Create Product</h4>
-                    <form method="POST" action="{{ route('createProduct.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('store') }}" enctype="multipart/form-data">
                         @csrf
                         
                         <div class="mb-3">

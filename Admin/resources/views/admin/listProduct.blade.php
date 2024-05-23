@@ -41,6 +41,10 @@
                             <img class="card-img-top" src="{{ asset('assets/img/' . $item->ProductMedia) }}" alt="{{ $item->ProductName }}">
                         @endif
                         </td>
+                        <td style="display: flex; justify-content: space-around;">
+                            <a class="btn btn-small btn-success btn-block" href="{{ route('edit', $item->id) }}">Update</a>
+                            <a class="btn btn-small btn-danger btn-block" href="{{ route('delete', $item->id) }}">Delete</a>
+                        </td>
                     </tr>
                     @endforeach
                     </tbody>

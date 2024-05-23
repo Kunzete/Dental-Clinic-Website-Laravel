@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('ProductQuantity');
             $table->integer('ProductPrice');
             $table->string('ProductMedia');
+            $table->boolean('role')->default(0);
             $table->timestamps();
         });
     }

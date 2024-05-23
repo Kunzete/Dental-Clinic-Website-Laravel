@@ -10,11 +10,11 @@ class productController extends Controller
 
     
     public function CP(){
-        return view('createProduct');
+        return view('admin.createProduct');
     }
 
     public function LP(){
-        return view('listProduct');
+        return view('admin.listProduct');
     }
 
     public function store(Request $request)
@@ -42,11 +42,48 @@ class productController extends Controller
 
         // Additional logic or redirection after successful data storage
 
-        return redirect()->route('createProduct')->with('success', 'Product stored successfully!');
+        return redirect()->route('show');
     }
 
     public function show(){
         $products = product::all();
-        return view('listProduct', compact('products'));
+        return view('admin.listProduct', compact('products'));
+    }
+
+    public function destroy(string $id){
+        $product = product::find($id);
+        $product->delete();
+        return back();
+    }
+
+    
+    public function edit(string $id){
+        $product = product::find($id);
+        return view('admin.editProduct', ['item'=> $product]);
+    }
+
+    public function update(Request $request, string $id){
+        $product = product::find($id);
+
+        if($product){
+            $file = $request->file('ProductMedia');
+            if ($file) {
+                $FileName = time().'.'.$request->file('ProductMedia')->getClientOriginalExtension();
+                $file->move(public_path('assets/img'), $FileName);
+                $product->ProductMedia = $FileName;
+            }
+            
+            $product->ProductName = $request->input('ProductName');
+            $product->ProductDesc = $request->input('ProductDesc');
+            $product->ProductQuantity = $request->input('ProductQuantity');
+            $product->ProductPrice = $request->input('ProductPrice');
+            
+            
+            $product->save();
+    
+            // Additional logic or redirection after successful data storage
+    
+            return redirect()->route('show');
+        }
     }
 }
