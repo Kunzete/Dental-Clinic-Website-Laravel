@@ -94,7 +94,7 @@
             <p><strong>Dento</strong><br>
             Sialkot, Pakistan<br>
             Phone: 111 222 333<br>
-            Email: <a href="mailto:newkunzere@gmail.com">newkunzere@gmail.com</a></p>
+            Email: <a href="mailto:dentositeclinic@gmail.com">dentositeclinic@gmail.com</a></p>
         </div>
     </div>
 </body>

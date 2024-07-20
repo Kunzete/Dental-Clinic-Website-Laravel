@@ -34,7 +34,7 @@ class MailableName extends Mailable
     public function envelope()
     {
        return new Envelope(
-           from: new Address('newkunzere@gmail.com', 'DentoSite'),
+           from: new Address('dentositeclinic@gmail.com', 'DentoSite'),
            subject: 'Appointment Status Update',
        );
     }
