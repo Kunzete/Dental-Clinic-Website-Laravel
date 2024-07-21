@@ -78,7 +78,7 @@
             <p>Please find the details below:</p>
 
             <ul>
-                <li><strong>Doctor:</strong> {{Auth::guard('doctor')->user()->name}}</li>
+                <li><strong>Doctor:</strong> {{$appointment->doctor->name}}</li>
                 <li><strong>Time:</strong> {{ $appointment->appointment_time }}</li>
                 <li><strong>Day:</strong> {{ $appointment->appointment_day }}</li>
             </ul>
@@ -87,14 +87,14 @@
 
             <p>Thank you for your cooperation.</p>
 
-            <p>Best regards,<br>{{ Auth::guard('doctor')->user()->name }}</p>
+            <p>Best regards,<br>Dento Clinic</p>
         </div>
         <div class="signature">
             <hr>
             <p><strong>Dento</strong><br>
             Sialkot, Pakistan<br>
             Phone: 111 222 333<br>
-            Email: <a href="mailto:dentositeclinic@gmail.com">dentositeclinic@gmail.com</a></p>
+            Email: <a href="mailto:{{env('MAIL_FROM_ADDRESS')}}">{{ env('MAIL_FROM_ADDRESS') }}</a></p>
         </div>
     </div>
 </body>

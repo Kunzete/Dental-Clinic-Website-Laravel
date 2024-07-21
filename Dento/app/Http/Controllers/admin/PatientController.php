@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,17 +16,17 @@ class PatientController extends Controller
      */
     public function search(Request $request)
     {
-    $searchTerm = $request->input('search');
+        $searchTerm = $request->input('search');
 
-    if ($searchTerm) {
-        $patients = User::where('role', 'patient')
-            ->where('name', 'like', '%'. $searchTerm. '%')
-            ->get();
-    } else {
-        $patients = User::where('role', 'patient')->get();
-    }
+        if ($searchTerm) {
+            $patients = User::where('role', 'patient')
+                ->where('name', 'like', '%' . $searchTerm . '%')
+                ->get();
+        } else {
+            $patients = User::where('role', 'patient')->get();
+        }
 
-    return view('admin.patient.list', compact('patients'));
+        return view('admin.patient.list', compact('patients'));
     }
 
     /**
@@ -67,25 +68,25 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,string $id)
+    public function update(Request $request, string $id)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'filled|string|min:4|max:20',
             'email' => 'filled|email',
             'number' => 'filled|numeric|max:99999999999'
         ]);
 
-        if($validator->passes()){
+        if ($validator->passes()) {
             $p = User::find($id);
             $p->name = $request->name;
             $p->email = $request->email;
             $p->number = $request->number;
             $p->updated_at = time();
             $p->update();
-            return redirect()->route('patient.edit',$p->id)->with('success','Patient credentials changed successfully 🤩');
-        }else{
+            return redirect()->route('patient.edit', $p->id)->with('success', 'Patient credentials changed successfully 🤩');
+        } else {
             $p = User::find($id);
-            return redirect()->route('patient.edit',$p->id)->withErrors($validator);
+            return redirect()->route('patient.edit', $p->id)->withErrors($validator);
         }
     }
 
@@ -94,6 +95,9 @@ class PatientController extends Controller
      */
     public function destroy(User $patient)
     {
+        // Delete the user's appointments
+        $patient->appointments()->delete();
+
         // Delete the user
         $patient->delete();
 

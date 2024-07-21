@@ -34,7 +34,7 @@ class ResetPassword extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('dentositeclinic@gmail.com', 'Dento Clinic'),
+            from: env('MAIL_FROM_ADDRESS', 'MAIL_FROM_NAME'),
             subject: 'Reset Account Password',
         );
     }
