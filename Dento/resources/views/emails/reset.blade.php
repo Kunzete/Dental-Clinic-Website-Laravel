@@ -57,7 +57,9 @@
             <p>We've received a request to reset your password. If you didn't make this request, please ignore this email.</p>
 
             <p>Copy and paste the following token:</p>
-            <code>{{ $token }}</code>
+            <h1>{{ $token }}</h1>
+
+            <code>This reset code will expire after you use it. <b>DONT SHARE YOUR CODE WITH OTHERS!!!</b></code>
             <p>Best regards,</p>
             <p>DentoSite</p>
         </div>

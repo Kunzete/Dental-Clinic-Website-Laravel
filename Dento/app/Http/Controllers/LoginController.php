@@ -78,20 +78,20 @@ class LoginController extends Controller
         return redirect()->route('account.login')->with('success', 'You have logged out successfully :)');
     }
 
-    public function sendMail()
+    public function enter_email()
     {
         return view('patient.reset_email');
     }
 
-    public function code(Request $request)
+    public function send_code(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
+            'email' => "required|email|exists:users,email"
         ]);
 
         if ($validator->passes()) {
             $email = $request->input('email');
-            $token = Str::random(60); // Generate a random token
+            $token = rand(100000, 999999); // Generate a random token
 
             // Store the token in the password_resets table
             DB::table('password_reset_tokens')->insert([
@@ -103,17 +103,44 @@ class LoginController extends Controller
             // Send the email with the token
             Mail::to($email)->send(new resetPassword($token));
 
-            return view('patient.enter_code', compact('token', 'email'));
+            return redirect()->route('account.enter_code', ['email' => $email]);
+        }else{
+            return redirect()->route('account.reset')->withErrors($validator);
         }
     }
 
-    public function changePass_view(Request $request){
-        $email = $request->input('email');
-
-        return view('patient.changePassword', compact('email'));
+    public function enter_code($email)
+    {
+        return view('patient.enter_code', ['email' => $email]);
     }
 
-    public function changePass(Request $request)
+    public function authorize_code(Request $request, $email)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required|string|exists:password_reset_tokens,token'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('account.enter_code', ['email' => $email])->withErrors($validator);
+        }
+
+        $token = DB::table('password_reset_tokens')
+            ->where('email', $email)
+            ->value('token');
+
+        if ($request->input('code') == $token) {
+            return redirect()->route('account.new-password', ['email' => $email]);
+        } else {
+            return redirect()->route('account.enter_code', ['email' => $email])->withErrors(['code' => 'Invalid code']);
+        }
+    }
+
+    public function enter_password($email)
+    {
+        return view('patient.changePassword', ['email' => $email]);
+    }
+
+    public function change_pass(Request $request, $email)
     {
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|max:18|min:5',
@@ -123,9 +150,8 @@ class LoginController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $email = $request->input('email');
-
         User::where('email', $email)->update(['password' => Hash::make($request->input('password'))]);
+        DB::table('password_reset_tokens')->where('email', $email)->delete();
 
         return redirect()->route('account.login')->withSuccess('Password updated successfully');
     }

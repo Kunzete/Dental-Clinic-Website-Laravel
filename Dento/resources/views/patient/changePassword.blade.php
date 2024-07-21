@@ -19,7 +19,7 @@
                     <hr>
                 </div>
             </div>
-            <form action="{{ route('account.change-pass') }}" method="POST">
+            <form action="{{route('account.change-password', $email)}}" method="POST">
                 @csrf
                 <div class="row gy-3 overflow-hidden">
                     <div class="col-12">

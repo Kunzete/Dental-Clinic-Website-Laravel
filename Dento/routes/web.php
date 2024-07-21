@@ -23,11 +23,13 @@ Route::group(['prefix' => 'account'], function () {
     //Guest Middleware
     Route::group(['middleware' => 'guest'], function () {
         Route::get('login', [LoginController::class, 'index'])->name('account.login');
-        Route::get('reset-password', [LoginController::class, 'sendMail'])->name('account.reset');
-        Route::post('reset-password/authorize', [LoginController::class, 'code'])->name('account.code');
-        Route::get('reset-password/change-password', [LoginController::class, 'changePass_view'])->name('account.change-password');
-        Route::post('reset-password/change-pass', [LoginController::class, 'changePass'])->name('account.change-pass');
         Route::get('register', [LoginController::class, 'register'])->name('account.register');
+        Route::get('reset-password', [LoginController::class, 'enter_email'])->name('account.reset');
+        Route::post('reset-password/send', [LoginController::class, 'send_code'])->name('account.sendCode');
+        Route::get('reset-password/code/{email}', [LoginController::class, 'enter_code'])->name('account.enter_code');
+        Route::post('reset/authorize-code/{email}', [LoginController::class, 'authorize_code'])->name('account.authorizeCode');
+        Route::get('reset-password/new-password/{email}', [LoginController::class, 'enter_password'])->name('account.new-password');
+        Route::post('reset-password/change-password/{email}', [LoginController::class, 'change_pass'])->name('account.change-password');
         Route::post('process-register', [LoginController::class, 'processRegister'])->name('account.processRegister');
         Route::post('authenticate', [LoginController::class, 'authenticate'])->name('account.authenticate');
     });

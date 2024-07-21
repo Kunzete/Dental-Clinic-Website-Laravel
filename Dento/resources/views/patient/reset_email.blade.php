@@ -19,7 +19,7 @@
                     <hr>
                 </div>
             </div>
-            <form action="{{ route('account.code') }}" method="POST">
+            <form action="{{ route('account.sendCode') }}" method="POST">
                 @csrf
                 <div class="row gy-3 overflow-hidden">
                     <div class="col-12">

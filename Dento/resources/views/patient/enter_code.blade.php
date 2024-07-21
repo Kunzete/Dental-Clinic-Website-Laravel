@@ -19,7 +19,7 @@
                     <hr>
                 </div>
             </div>
-            <form action="{{ route('account.change-password') }}">
+            <form action="{{route('account.authorizeCode', $email)}}" method="POST">
                 @csrf
                 <div class="row gy-3 overflow-hidden">
                     <div class="col-12">
@@ -31,7 +31,7 @@
                             <input type="text" class="form-control @error('code') is-invalid @enderror"
                                 name="code" id="code" placeholder="Code">
                             @error('code')
-                                <span class="text-danger">Code not recognized. Please verify that you have entered your code  correctly.</span>
+                                <span class="text-danger">Invalid Code!</span>
                             @enderror
                         </div>
                     </div>

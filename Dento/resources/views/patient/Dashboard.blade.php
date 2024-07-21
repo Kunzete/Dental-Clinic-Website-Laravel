@@ -169,7 +169,7 @@
                                         <td class="py-3 ps-2">{{ $appointment->appointment_day }}</td>
                                         <td class="py-3 ps-2">
                                             <span style="width:100px;"
-                                                class="btn btn-{{ $appointment->status === 'pending' ? 'primary' : ($appointment->status === 'confirmed' ? 'success' : 'danger') }}">{{ $appointment->status }}</span>
+                                                class="btn px-2 btn-{{ $appointment->status === 'pending' ? 'primary' : ($appointment->status === 'confirmed' ? 'success' : 'danger') }}">{{ $appointment->status }}</span>
                                         </td>
                                         <td class="py-3 ps-2" style="width:200px;">
                                             {{ $appointment->description === null ? 'No description available' : $appointment->description }}
